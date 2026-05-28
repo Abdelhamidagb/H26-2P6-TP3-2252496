@@ -147,8 +147,16 @@ namespace Models
                 // TODO QUIZ 3: Calculer et retourner le nombre de bonnes réponses
                 // en vérifiant chaque réponse avec la méthode ValiderReponse.
 
-               
-                return 0;
+
+                int count = 0;
+
+                for (int i = 0; i < Questions.Count; i++)
+                {
+                    if (Questions[i].ValiderReponse(Reponses[i]))
+                        count++;
+                }
+
+                return count;
 
             }
         }
