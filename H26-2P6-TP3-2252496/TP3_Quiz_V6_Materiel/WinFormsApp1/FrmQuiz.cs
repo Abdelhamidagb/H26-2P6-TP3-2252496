@@ -28,7 +28,7 @@ namespace WinFormsApp1
 
 
 
-       
+
         private void AfficherQuestionCourante()
         {
             // TODO FQ 1: Afficher la question courante dans le formulaire.
@@ -49,8 +49,26 @@ namespace WinFormsApp1
                 return;
             }
 
-           // Compléter ici
+            // Compléter ici
 
+            ReinitialiserZoneReponse();
+
+            if (question is QuestionVraiFaux vf)
+            {
+                AfficherQuestionVraiFaux(QuizCourant.ReponseQuestionCourante);
+            }
+            else if (question is QuestionReponseUnique ru)
+            {
+                AfficherQuestionChoixUnique(question, QuizCourant.ReponseQuestionCourante);
+            }
+            else if (question is QuestionReponsesMultiples rm)
+            {
+                AfficherQuestionChoixMultiples(question, QuizCourant.ReponseQuestionCourante);
+            }
+            else
+            {
+                AfficherQuestionTexte(QuizCourant.ReponseQuestionCourante);
+            }
 
 
 
@@ -66,7 +84,7 @@ namespace WinFormsApp1
         {
             txtAnswer.Visible = true;
             txtAnswer.Text = reponse;
-           
+
 
         }
 
@@ -89,7 +107,7 @@ namespace WinFormsApp1
             // TODO FQ 2: Afficher les options de ce type de question
             // Si l'utilisteur a dêja répondu à la question, vous pouvez sélectionner ses choix de réponse
 
-          
+
         }
         private int TrouverIndex(CheckedListBox listBox, string texte)
         {
@@ -145,21 +163,21 @@ namespace WinFormsApp1
             //
             // Si aucune réponse n’est fournie, retourner une chaîne vide.
 
-          
+
             return "";
-           
+
         }
         private void AfficherCouleurResultat(double score)
         {
             // TODO FQ 5: Mettre à jouyr la couleur de panColor selon le résultat
-           
+
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
             // TODO FQ 6: Naviguer vers la question suivante si elle existe
             // et mettre à jour l’affichage.
 
-           
+
 
         }
 
@@ -168,7 +186,7 @@ namespace WinFormsApp1
             // TODO FQ 7: Naviguer vers la question précédente si elle existe
             // et mettre à jour l’affichage.
 
-          
+
 
 
         }
@@ -180,8 +198,8 @@ namespace WinFormsApp1
         private void MettreAJourBoutons()
         {
             // TODO FQ8: Activer/Désactiver les boutons selon le type de question et la question courante.
-            
-           
+
+
 
         }
 
@@ -192,7 +210,12 @@ namespace WinFormsApp1
             // - utiliser l’indice de la question;
             // - afficher le texte de l’indice dans le label prévu.
 
-           
+
+
+        }
+
+        private void listBoxChoices_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

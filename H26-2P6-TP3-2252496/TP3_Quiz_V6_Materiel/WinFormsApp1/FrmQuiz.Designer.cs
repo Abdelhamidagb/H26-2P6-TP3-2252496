@@ -30,6 +30,8 @@
         {
             panColor = new Panel();
             card = new Panel();
+            lblIndice = new Label();
+            btnUtiliserIndice = new Button();
             lblNumQuestion = new Label();
             comboTrueFalse = new ComboBox();
             lblQuestion = new Label();
@@ -40,8 +42,6 @@
             btnNext = new Button();
             btnPrevious = new Button();
             lblScore = new Label();
-            btnUtiliserIndice = new Button();
-            lblIndice = new Label();
             panColor.SuspendLayout();
             card.SuspendLayout();
             SuspendLayout();
@@ -76,6 +76,30 @@
             card.Padding = new Padding(20);
             card.Size = new Size(697, 380);
             card.TabIndex = 2;
+            // 
+            // lblIndice
+            // 
+            lblIndice.Font = new Font("Segoe UI Semibold", 16F);
+            lblIndice.ForeColor = Color.FromArgb(30, 30, 30);
+            lblIndice.Location = new Point(343, 155);
+            lblIndice.Name = "lblIndice";
+            lblIndice.Size = new Size(340, 55);
+            lblIndice.TabIndex = 12;
+            // 
+            // btnUtiliserIndice
+            // 
+            btnUtiliserIndice.BackColor = Color.FromArgb(255, 192, 128);
+            btnUtiliserIndice.FlatAppearance.BorderSize = 0;
+            btnUtiliserIndice.FlatStyle = FlatStyle.Flat;
+            btnUtiliserIndice.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnUtiliserIndice.ForeColor = Color.Black;
+            btnUtiliserIndice.Location = new Point(343, 100);
+            btnUtiliserIndice.Name = "btnUtiliserIndice";
+            btnUtiliserIndice.Size = new Size(120, 35);
+            btnUtiliserIndice.TabIndex = 11;
+            btnUtiliserIndice.Text = "Utiliser indice";
+            btnUtiliserIndice.UseVisualStyleBackColor = false;
+            btnUtiliserIndice.Click += btnUtiliserIndice_Click;
             // 
             // lblNumQuestion
             // 
@@ -129,6 +153,7 @@
             listBoxChoices.Name = "listBoxChoices";
             listBoxChoices.Size = new Size(300, 100);
             listBoxChoices.TabIndex = 4;
+            listBoxChoices.SelectedIndexChanged += listBoxChoices_SelectedIndexChanged;
             // 
             // checkedListBox
             // 
@@ -192,30 +217,6 @@
             lblScore.Name = "lblScore";
             lblScore.Size = new Size(300, 30);
             lblScore.TabIndex = 9;
-            // 
-            // btnUtiliserIndice
-            // 
-            btnUtiliserIndice.BackColor = Color.FromArgb(255, 192, 128);
-            btnUtiliserIndice.FlatAppearance.BorderSize = 0;
-            btnUtiliserIndice.FlatStyle = FlatStyle.Flat;
-            btnUtiliserIndice.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnUtiliserIndice.ForeColor = Color.Black;
-            btnUtiliserIndice.Location = new Point(343, 100);
-            btnUtiliserIndice.Name = "btnUtiliserIndice";
-            btnUtiliserIndice.Size = new Size(120, 35);
-            btnUtiliserIndice.TabIndex = 11;
-            btnUtiliserIndice.Text = "Utiliser indice";
-            btnUtiliserIndice.UseVisualStyleBackColor = false;
-            btnUtiliserIndice.Click += btnUtiliserIndice_Click;
-            // 
-            // lblIndice
-            // 
-            lblIndice.Font = new Font("Segoe UI Semibold", 16F);
-            lblIndice.ForeColor = Color.FromArgb(30, 30, 30);
-            lblIndice.Location = new Point(343, 155);
-            lblIndice.Name = "lblIndice";
-            lblIndice.Size = new Size(340, 55);
-            lblIndice.TabIndex = 12;
             // 
             // FrmQuiz
             // 
