@@ -37,10 +37,8 @@ namespace Models
                 // - QuestionReponseUnique
                 // - QuestionReponsesMultiples
                 // - QuestionReponseCourte
-                 // =========================
-                // VRAI / FAUX
-                // =========================
- // Questions Vrai/Faux
+
+                // Questions Vrai/Faux
                 new QuestionVraiFaux(
                     "Le langage C# est un langage orienté objet.",
                     Categorie.Programmation, 1, true),

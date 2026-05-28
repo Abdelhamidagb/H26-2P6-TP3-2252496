@@ -28,12 +28,34 @@ namespace WinFormsApp1
             // TODO FP 1 : Générer un quiz à partir de la banque de questions,
             // puis ouvrir le formulaire FrmQuiz.
 
-            Quiz quiz = BanqueQuestions.GenererQuiz("Quiz TP3", 5);
+            string nomQuiz = txtNomQuiz.Text.Trim();
 
-            FrmQuiz frm = new FrmQuiz(quiz);
-            frm.Show();
+            if (string.IsNullOrWhiteSpace(nomQuiz))
+            {
+                MessageBox.Show("Veuillez entrer un nom pour le quiz.", "Avertissement",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            this.Hide();
+            if (cboNbQuestions.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez sélectionner le nombre de questions.", "Avertissement",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int nombreQuestions = int.Parse(cboNbQuestions.SelectedItem.ToString());
+
+            try
+            {
+                Quiz quiz = BanqueQuestions.GenererQuiz(nomQuiz, nombreQuestions);
+                FrmQuiz frmQuiz = new FrmQuiz(quiz);
+                frmQuiz.ShowDialog();
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
