@@ -254,6 +254,25 @@ namespace WinFormsApp1
         {
             // TODO FQ 5: Mettre à jouyr la couleur de panColor selon le résultat
 
+            double total = QuizCourant.ScoreTotal;
+
+            if (total == 0)
+                return;
+
+            double pourcentage = (score / total) * 100;
+
+            if (pourcentage >= 70)
+            {
+                panColor.BackColor = System.Drawing.Color.Green;
+            }
+            else if (pourcentage >= 50)
+            {
+                panColor.BackColor = System.Drawing.Color.Orange;
+            }
+            else
+            {
+                panColor.BackColor = System.Drawing.Color.Red;
+            }
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
