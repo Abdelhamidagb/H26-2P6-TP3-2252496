@@ -19,15 +19,26 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-       
+
 
         private void btnGenererQuiz_Click(object sender, EventArgs e)
         {
-           
+
 
             // TODO FP 1 : Générer un quiz à partir de la banque de questions,
             // puis ouvrir le formulaire FrmQuiz.
-           
+
+            Quiz quiz = BanqueQuestions.GenererQuiz("Quiz TP3", 5);
+
+            FrmQuiz frm = new FrmQuiz(quiz);
+            frm.Show();
+
+            this.Hide();
+
+        }
+
+        private void card_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

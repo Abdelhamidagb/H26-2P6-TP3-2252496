@@ -57,6 +57,7 @@ namespace WinFormsApp1
             card.Padding = new Padding(20);
             card.Size = new Size(611, 290);
             card.TabIndex = 1;
+            card.Paint += card_Paint;
             // 
             // cboNbQuestions
             // 
