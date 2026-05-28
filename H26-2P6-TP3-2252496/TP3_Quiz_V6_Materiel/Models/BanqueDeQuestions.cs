@@ -40,58 +40,80 @@ namespace Models
                  // =========================
                 // VRAI / FAUX
                 // =========================
-                new QuestionVraiFaux("Le ciel est bleu ?", Categorie.CultureGenerale, 10, true),
-                new QuestionVraiFaux("2 + 2 = 5 ?", Categorie.Mathematiques, 10, false),
+ // Questions Vrai/Faux
+                new QuestionVraiFaux(
+                    "Le langage C# est un langage orienté objet.",
+                    Categorie.Programmation, 1, true),
 
-                // =========================
-                // NUMERIQUE
-                // =========================
-                new QuestionNumerique("Combien font 3 + 3 ?", Categorie.Mathematiques, 10, 6, "Addition simple", 0.5),
-                new QuestionNumerique("10 / 2 ?", Categorie.Mathematiques, 10, 5, "Division par 2", 0.5),
+                new QuestionVraiFaux(
+                    "La Terre est plus grande que le Soleil.",
+                    Categorie.CultureGenerale, 1, false),
 
-                // =========================
-                // REPONSE COURTE
-                // =========================
-                new QuestionReponseCourte("Capitale du Canada ?", Categorie.CultureGenerale, 10, "Ottawa", "Ville politique", 0.5),
-                new QuestionReponseCourte("Pays de la tour Eiffel ?", Categorie.CultureGenerale, 10, "France", "Europe", 0.5),
+                new QuestionVraiFaux(
+                    "Le nombre PI est environ égal à 3.14.",
+                    Categorie.Mathematiques, 1, true),
 
-                // =========================
-                // REPONSE UNIQUE
-                // =========================
+                // Questions Numériques
+                new QuestionNumerique(
+                    "Combien font 7 multiplié par 8 ?",
+                    Categorie.Mathematiques, 2, 56,
+                    "Pensez aux tables de multiplication.", 0.5),
+
+                new QuestionNumerique(
+                    "Combien y a-t-il de mois dans une année ?",
+                    Categorie.CultureGenerale, 1, 12,
+                    "C'est un nombre entre 10 et 15.", 0.25),
+
+                new QuestionNumerique(
+                    "Quelle est la valeur approximative de PI arrondie à l'entier le plus proche ?",
+                    Categorie.Mathematiques, 2, 3,
+                    "C'est un chiffre entre 2 et 5.", 0.5),
+
+                // Questions à Réponse Courte
+                new QuestionReponseCourte(
+                    "Quelle est la capitale du Canada ?",
+                    Categorie.CultureGenerale, 2, "Ottawa",
+                    "C'est une ville située en Ontario.", 0.5),
+
+                new QuestionReponseCourte(
+                    "Quel mot-clé C# permet de créer un objet ?",
+                    Categorie.Programmation, 2, "new",
+                    "C'est un mot-clé de 3 lettres.", 0.5),
+
+                // Questions à Réponse Unique
                 new QuestionReponseUnique(
-                    "Capitale de la France ?",
-                    Categorie.CultureGenerale,
-                    10,
-                    "Paris",
-                    new List<string>{ "Paris", "Lyon", "Marseille", "Nice" }
-                ),
+                    "Quel est le symbole chimique de l'eau ?",
+                    Categorie.CultureGenerale, 2, "H2O",
+                    new List<string> { "H2O", "CO2", "O2", "NaCl" }),
 
                 new QuestionReponseUnique(
-                    "Couleur du ciel par beau temps ?",
-                    Categorie.CultureGenerale,
-                    10,
-                    "Bleu",
-                    new List<string>{ "Bleu", "Vert", "Rouge", "Noir" }
-                ),
+                    "Lequel de ces langages est orienté objet ?",
+                    Categorie.Programmation, 2, "Java",
+                    new List<string> { "Java", "HTML", "CSS", "SQL" }),
 
-                // =========================
-                // REPONSES MULTIPLES
-                // =========================
+                new QuestionReponseUnique(
+                    "Quelle structure de données suit le principe LIFO ?",
+                    Categorie.Programmation, 3, "Pile",
+                    new List<string> { "Pile", "File", "Liste", "Tableau" }),
+
+                // Questions à Réponses Multiples
                 new QuestionReponsesMultiples(
-                    "Sélectionner les capitales européennes",
-                    Categorie.CultureGenerale,
-                    10,
-                    new List<string>{ "Paris", "Rome" },
-                    new List<string>{ "Paris", "Rome", "Berlin", "Madrid" }
-                ),
+                    "Quels langages sont utilisés pour le développement web côté client ?",
+                    Categorie.Programmation, 3,
+                    new List<string> { "HTML", "CSS", "JavaScript" },
+                    new List<string> { "HTML", "CSS", "JavaScript", "Python", "C#" }),
 
                 new QuestionReponsesMultiples(
-                    "Sélectionner les animaux",
-                    Categorie.CultureGenerale,
-                    10,
-                    new List<string>{ "Chat", "Chien" },
-                    new List<string>{ "Chat", "Chien", "Table", "Chaise" }
-                )
+                    "Quels sont les principes de la programmation orientée objet ?",
+                    Categorie.Programmation, 3,
+                    new List<string> { "Héritage", "Polymorphisme", "Encapsulation" },
+                    new List<string> { "Héritage", "Polymorphisme", "Encapsulation", "Compilation", "Récursivité" }),
+
+                new QuestionReponsesMultiples(
+                    "Quels pays font partie du G7 ?",
+                    Categorie.CultureGenerale, 2,
+                    new List<string> { "Canada", "France", "Japon" },
+                    new List<string> { "Canada", "France", "Japon", "Chine", "Russie" }),
 
 
             };
