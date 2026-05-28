@@ -125,9 +125,14 @@ namespace Models
             {
                 // TODO QUIZ 2: Calculer et retourner le score total possible du quiz
                 // en additionnant les points de toutes les questions.
+                double total = 0;
 
-               
-                return 0;
+                for (int i = 0; i < Questions.Count; i++)
+                {
+                    total += Questions[i].Points;
+                }
+
+                return total;
 
             }
         }
