@@ -292,7 +292,11 @@ namespace WinFormsApp1
             // TODO FQ 7: Naviguer vers la question précédente si elle existe
             // et mettre à jour l’affichage.
 
-
+            if (QuizCourant.IndexQuestionCourante > 0)
+            {
+                QuizCourant.QuestionPrecedente();
+                AfficherQuestionCourante();
+            }
 
 
         }
