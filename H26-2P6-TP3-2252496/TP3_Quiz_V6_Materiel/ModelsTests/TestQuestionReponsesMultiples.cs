@@ -1,4 +1,4 @@
-﻿//#define _TESTS_QUESTION_REPONSES_MULTIPLES
+﻿#define _TESTS_QUESTION_REPONSES_MULTIPLES
 
 using Models;
 using System.Collections.Generic;

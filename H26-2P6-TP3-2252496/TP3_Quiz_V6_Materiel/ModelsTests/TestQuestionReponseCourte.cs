@@ -1,4 +1,4 @@
-﻿//#define _TESTS_QUESTION_REPONSE_COURTE
+﻿#define _TESTS_QUESTION_REPONSE_COURTE
 
 using Models;
 

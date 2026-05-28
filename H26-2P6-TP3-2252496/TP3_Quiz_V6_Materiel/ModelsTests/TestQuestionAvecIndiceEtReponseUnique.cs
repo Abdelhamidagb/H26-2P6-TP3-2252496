@@ -1,4 +1,4 @@
-﻿//#define _TESTS_QUESTION_REPONSE_UNIQUE
+﻿#define _TESTS_QUESTION_REPONSE_UNIQUE
 
 using Models;
 using System.Collections.Generic;
