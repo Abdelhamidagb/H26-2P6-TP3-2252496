@@ -279,7 +279,11 @@ namespace WinFormsApp1
             // TODO FQ 6: Naviguer vers la question suivante si elle existe
             // et mettre à jour l’affichage.
 
-
+            if (QuizCourant.IndexQuestionCourante < QuizCourant.Questions.Count - 1)
+            {
+                QuizCourant.QuestionSuivante();
+                AfficherQuestionCourante();
+            }
 
         }
 
