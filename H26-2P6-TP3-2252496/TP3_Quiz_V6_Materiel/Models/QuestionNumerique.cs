@@ -2,80 +2,63 @@
 using Models.Interfaces;
 
 namespace Models
-{
-    public class QuestionNumerique : IQuestion
+{    /// <summary>
+     /// Représente une question dont la réponse attendue est un nombre.
+     /// Implémente IReponseAvecIndice via QuestionAvecIndice.
+     /// </summary>
+    public class QuestionNumerique : QuestionAvecIndice
     {
-        public string Enonce { get; private set; }
+        #region Propriétés
 
-        public Categorie Categorie { get; private set; }
+        /// <summary>
+        /// Bonne réponse numérique attendue.
+        /// </summary>
+        public double BonneReponse { get; set; }
 
-        public int Points { get; private set; }
+        #endregion
 
-        public double BonneReponse { get; private set; }
+        #region Constructeur
 
-        public double MargeErreur { get; private set; }
-
-        public string Indice { get; private set; }
-
-        public double PenaliteIndice { get; private set; }
-
-        public bool IndiceUtilise { get; private set; }
-
-        public QuestionNumerique(string enonce,
-                                 Categorie categorie,
-                                 int points,
-                                 double bonneReponse,
-                                 double margeErreur,
-                                 string indice,
-                                 double penaliteIndice)
+        /// <summary>
+        /// Initialise une question numérique.
+        /// </summary>
+        /// <param name="enonce">Énoncé de la question.</param>
+        /// <param name="categorie">Catégorie de la question.</param>
+        /// <param name="points">Nombre de points.</param>
+        /// <param name="bonneReponse">Valeur numérique attendue.</param>
+        /// <param name="indice">Texte de l'indice.</param>
+        /// <param name="penaliteIndice">Pénalité appliquée si l'indice est utilisé (entre 0 et 1).</param>
+        public QuestionNumerique(string enonce, Categorie categorie, int points,
+            double bonneReponse, string indice, double penaliteIndice)
+            : base(enonce, categorie, points, indice, penaliteIndice)
         {
-            if (string.IsNullOrWhiteSpace(enonce))
-                throw new ArgumentException();
-
-            if (points <= 0)
-                throw new ArgumentOutOfRangeException(nameof(points));
-
-            if (margeErreur < 0)
-                throw new ArgumentOutOfRangeException(nameof(margeErreur));
-
-            if (string.IsNullOrWhiteSpace(indice))
-                throw new ArgumentException();
-
-            if (penaliteIndice < 0 || penaliteIndice > 1)
-                throw new ArgumentOutOfRangeException(nameof(penaliteIndice));
-
-            Enonce = enonce;
-            Categorie = categorie;
-            Points = points;
             BonneReponse = bonneReponse;
-            MargeErreur = margeErreur;
-            Indice = indice;
-            PenaliteIndice = penaliteIndice;
         }
 
-        public void UtiliserIndice()
+        #endregion
+
+        #region Méthodes
+
+        /// <summary>
+        /// Valide si la réponse fournie correspond exactement à la bonne réponse numérique.
+        /// Si la réponse n'est pas un nombre valide, elle est considérée comme incorrecte.
+        /// </summary>
+        /// <param name="reponse">Réponse de l'utilisateur sous forme de chaîne.</param>
+        /// <returns>true si la réponse est correcte ; sinon false.</returns>
+        public override bool ValiderReponse(string reponse)
         {
-            IndiceUtilise = true;
-        }
-
-        public double CorrigerReponse(string reponse)
-        {
-            if (!ValiderReponse(reponse))
-                return 0;
-
-            return IndiceUtilise
-                ? Points * (1 - PenaliteIndice)
-                : Points;
-        }
-
-        public bool ValiderReponse(string reponse)
-        {
-            bool estNombre = double.TryParse(reponse, out double valeur);
-
-            if (!estNombre)
+            if (reponse == null)
                 return false;
 
-            return Math.Abs(valeur - BonneReponse) <= MargeErreur;
+            bool estNumerique = double.TryParse(reponse, System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out double valeur);
+
+            if (!estNumerique)
+                return false;
+
+            return valeur == BonneReponse;
         }
+
+        #endregion
     }
 }
