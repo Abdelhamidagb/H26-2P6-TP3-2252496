@@ -225,8 +225,29 @@ namespace WinFormsApp1
             //
             // Si aucune réponse n’est fournie, retourner une chaîne vide.
 
+            IQuestion q = QuizCourant.QuestionCourante;
 
-            return "";
+            if (q is QuestionVraiFaux)
+            {
+                return comboTrueFalse.Text;
+            }
+            else if (q is QuestionReponseUnique)
+            {
+                return listBoxChoices.SelectedItem?.ToString() ?? "";
+            }
+            else if (q is QuestionReponsesMultiples)
+            {
+                List<string> rep = new List<string>();
+
+                foreach (var item in checkedListBox.CheckedItems)
+                    rep.Add(item.ToString());
+
+                return string.Join(",", rep);
+            }
+            else
+            {
+                return txtAnswer.Text;
+            }
 
         }
         private void AfficherCouleurResultat(double score)
