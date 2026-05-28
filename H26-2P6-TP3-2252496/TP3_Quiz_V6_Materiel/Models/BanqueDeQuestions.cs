@@ -38,6 +38,65 @@ namespace Models
                 // - QuestionReponsesMultiples
                 // - QuestionReponseCourte
 
+                Questions = new List<IQuestion>()
+{
+    // =========================
+    // VRAI / FAUX
+    // =========================
+    new QuestionVraiFaux("Le ciel est bleu ?", Categorie.CultureGenerale, 10, true),
+    new QuestionVraiFaux("2 + 2 = 5 ?", Categorie.Mathematiques, 10, false),
+
+    // =========================
+    // NUMERIQUE
+    // =========================
+    new QuestionNumerique("Combien font 3 + 3 ?", Categorie.Mathematiques, 10, 6, "Addition simple", 0.5),
+    new QuestionNumerique("10 / 2 ?", Categorie.Mathematiques, 10, 5, "Division par 2", 0.5),
+
+    // =========================
+    // REPONSE COURTE
+    // =========================
+    new QuestionReponseCourte("Capitale du Canada ?", Categorie.CultureGenerale, 10, "Ottawa", "Ville politique", 0.5),
+    new QuestionReponseCourte("Pays de la tour Eiffel ?", Categorie.CultureGenerale, 10, "France", "Europe", 0.5),
+
+    // =========================
+    // REPONSE UNIQUE
+    // =========================
+    new QuestionReponseUnique(
+        "Capitale de la France ?",
+        Categorie.CultureGenerale,
+        10,
+        "Paris",
+        new List<string>{ "Paris", "Lyon", "Marseille", "Nice" }
+    ),
+
+    new QuestionReponseUnique(
+        "Couleur du ciel par beau temps ?",
+        Categorie.CultureGenerale,
+        10,
+        "Bleu",
+        new List<string>{ "Bleu", "Vert", "Rouge", "Noir" }
+    ),
+
+    // =========================
+    // REPONSES MULTIPLES
+    // =========================
+    new QuestionReponsesMultiples(
+        "Sélectionner les capitales européennes",
+        Categorie.CultureGenerale,
+        10,
+        new List<string>{ "Paris", "Rome" },
+        new List<string>{ "Paris", "Rome", "Berlin", "Madrid" }
+    ),
+
+    new QuestionReponsesMultiples(
+        "Sélectionner les animaux",
+        Categorie.CultureGenerale,
+        10,
+        new List<string>{ "Chat", "Chien" },
+        new List<string>{ "Chat", "Chien", "Table", "Chaise" }
+    )
+};
+
             };
         }
 
