@@ -201,6 +201,15 @@ namespace WinFormsApp1
             // TODO FQ 3: Valider la réponse de l'utilsiateur 
             // et mettre à jour le score
 
+            string reponse = RecupererReponseUtilisateur();
+
+            QuizCourant.RepondreQuestionCourante(reponse);
+
+            double score = QuizCourant.ScoreObtenu;
+
+            lblScore.Text = $"Score: {score}/{QuizCourant.ScoreTotal}";
+
+            AfficherCouleurResultat(score);
 
         }
         private string RecupererReponseUtilisateur()
