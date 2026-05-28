@@ -1,6 +1,7 @@
-﻿//#define _TESTS_QUESTION_VRAI_FAUX
+﻿#define _TESTS_QUESTION_VRAI_FAUX
 
 using Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestsUnitaires
 {
