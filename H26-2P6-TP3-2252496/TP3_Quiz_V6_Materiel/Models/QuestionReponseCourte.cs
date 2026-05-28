@@ -6,24 +6,40 @@ namespace Models
     public class QuestionReponseCourte : IQuestion
     {
         public string Enonce { get; private set; }
+
         public Categorie Categorie { get; private set; }
+
         public int Points { get; private set; }
 
         public string BonneReponse { get; private set; }
 
         public string Indice { get; private set; }
+
         public double PenaliteIndice { get; private set; }
 
-        private bool indiceUtilise;
+        public bool IndiceUtilise { get; private set; }
 
-        public QuestionReponseCourte(string enonce, Categorie categorie, int points,
-            string bonneReponse, string indice, double penaliteIndice)
+        public QuestionReponseCourte(string enonce,
+                                     Categorie categorie,
+                                     int points,
+                                     string bonneReponse,
+                                     string indice,
+                                     double penaliteIndice)
         {
-            if (string.IsNullOrWhiteSpace(bonneReponse))
-                throw new ArgumentException("Bonne réponse invalide");
-
             if (string.IsNullOrWhiteSpace(enonce))
-                throw new ArgumentException("Enoncé invalide");
+                throw new ArgumentException();
+
+            if (points <= 0)
+                throw new ArgumentOutOfRangeException(nameof(points));
+
+            if (string.IsNullOrWhiteSpace(bonneReponse))
+                throw new ArgumentException();
+
+            if (string.IsNullOrWhiteSpace(indice))
+                throw new ArgumentException();
+
+            if (penaliteIndice < 0 || penaliteIndice > 1)
+                throw new ArgumentOutOfRangeException(nameof(penaliteIndice));
 
             Enonce = enonce;
             Categorie = categorie;
@@ -35,16 +51,7 @@ namespace Models
 
         public void UtiliserIndice()
         {
-            indiceUtilise = true;
-        }
-
-        public bool ValiderReponse(string reponse)
-        {
-            if (string.IsNullOrWhiteSpace(reponse))
-                return false;
-
-            return reponse.Trim()
-                .Equals(BonneReponse, StringComparison.OrdinalIgnoreCase);
+            IndiceUtilise = true;
         }
 
         public double CorrigerReponse(string reponse)
@@ -52,7 +59,15 @@ namespace Models
             if (!ValiderReponse(reponse))
                 return 0;
 
-            return indiceUtilise ? Points * 0.5 : Points;
+            return IndiceUtilise
+                ? Points * (1 - PenaliteIndice)
+                : Points;
+        }
+
+        public bool ValiderReponse(string reponse)
+        {
+            return BonneReponse.Trim().ToLower() ==
+                   reponse.Trim().ToLower();
         }
     }
 }
