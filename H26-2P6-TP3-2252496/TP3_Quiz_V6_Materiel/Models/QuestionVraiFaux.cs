@@ -7,21 +7,27 @@ using Models.Interfaces;
 
 namespace Models
 {
-    public class QuestionVraiFaux:IQuestion
+    public class QuestionVraiFaux : IQuestion
     {
-        public string Enonce { get; set; }
-        public Categorie Categorie { get; set; }
-        public int Points { get; set; }
-        public bool BonneReponse { get; set; }
-        
-        
-      
+        public string Enonce { get; private set; }
+
+        public Categorie Categorie { get; private set; }
+
+        public int Points { get; private set; }
+
+        public bool BonneReponse { get; private set; }
+
         public QuestionVraiFaux(string enonce,
                                 Categorie categorie,
                                 int points,
                                 bool bonneReponse)
-
         {
+            if (string.IsNullOrWhiteSpace(enonce))
+                throw new ArgumentException(nameof(enonce));
+
+            if (points <= 0)
+                throw new ArgumentOutOfRangeException(nameof(points));
+
             Enonce = enonce;
             Categorie = categorie;
             Points = points;
@@ -30,29 +36,17 @@ namespace Models
 
         public double CorrigerReponse(string reponse)
         {
-           
-            bool estValide = bool.TryParse(reponse, out bool val);
-            if(!estValide)
-            {
-                return 0;
-                
-            }
-
-            return val == BonneReponse ? Points : 0;
+            return ValiderReponse(reponse) ? Points : 0;
         }
+
         public bool ValiderReponse(string reponse)
         {
-            bool estBool = bool.TryParse(reponse, out bool val);
-            if (estBool)
-            {
-                return val == BonneReponse;
-            }
-            return false;
+            bool estBool = bool.TryParse(reponse, out bool valeur);
 
+            if (!estBool)
+                return false;
+
+            return valeur == BonneReponse;
         }
-
     }
-
-
-    
 }
