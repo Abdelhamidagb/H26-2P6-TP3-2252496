@@ -49,35 +49,72 @@ namespace WinFormsApp1
                 return;
             }
 
-            // Compléter ici
+            lblQuestion.Text = question.Enonce;
+
+            lblNumQuestion.Text =
+                $"{QuizCourant.IndexQuestionCourante + 1}/" +
+                $"{QuizCourant.Questions.Count}";
+
+            string reponseExistante = "";
+
+            if (QuizCourant.Reponses.Count >
+                QuizCourant.IndexQuestionCourante)
+            {
+                reponseExistante =
+                    QuizCourant.Reponses[
+                        QuizCourant.IndexQuestionCourante];
+            }
 
             ReinitialiserZoneReponse();
 
-            if (question is QuestionVraiFaux vf)
+            if (question is QuestionVraiFaux)
             {
-                AfficherQuestionVraiFaux(QuizCourant.ReponseQuestionCourante);
+                AfficherQuestionVraiFaux(reponseExistante);
             }
-            else if (question is QuestionReponseUnique ru)
+            else if (question is QuestionNumerique || question is QuestionReponseCourte)
             {
-                AfficherQuestionChoixUnique(question, QuizCourant.ReponseQuestionCourante);
+                AfficherQuestionTexte(reponseExistante);
             }
-            else if (question is QuestionReponsesMultiples rm)
+            else if (question is QuestionReponseUnique)
             {
-                AfficherQuestionChoixMultiples(question, QuizCourant.ReponseQuestionCourante);
+                AfficherQuestionChoixUnique(question, reponseExistante);
+            }
+            else if (question is QuestionReponsesMultiples)
+            {
+                AfficherQuestionChoixMultiples(question, reponseExistante);
+            }
+
+            if (question is QuestionAvecIndice questionAvecIndice)
+            {
+                btnUtiliserIndice.Visible = !questionAvecIndice.IndiceUtilise;
+
+                if (questionAvecIndice.IndiceUtilise)
+                {
+                    lblIndice.Text =
+                        "Indice : " +
+                        questionAvecIndice.Indice;
+                }
             }
             else
             {
-                AfficherQuestionTexte(QuizCourant.ReponseQuestionCourante);
+                btnUtiliserIndice.Visible = false;
+                lblIndice.Text = "";
             }
-
-
 
             MettreAJourBoutons();
         }
+
         private void AfficherQuestionVraiFaux(string reponse)
         {
+
             comboTrueFalse.Visible = true;
-            comboTrueFalse.SelectedItem = reponse;
+
+            if (!string.IsNullOrEmpty(reponse))
+            {
+                comboTrueFalse.SelectedItem =
+                    reponse.Substring(0, 1).ToUpper() +
+                    reponse.Substring(1).ToLower();
+            }
         }
 
         private void AfficherQuestionTexte(string reponse)
@@ -95,24 +132,20 @@ namespace WinFormsApp1
 
             // TODO FQ 1: Afficher les options de ce type de question
             // Si l'utilisteur a dêja répondu à la question, vous pouvez sélectionner son choix de réponse
-            QuestionReponseUnique q = question as QuestionReponseUnique;
 
-            if (q == null)
-                return;
+            QuestionReponseUnique q = (QuestionReponseUnique)question;
 
-            // Ajouter les options dans la liste
             foreach (string option in q.Options)
             {
                 listBoxChoices.Items.Add(option);
             }
 
             // Si une réponse existe déjà, la sélectionner
-            if (!string.IsNullOrWhiteSpace(reponse))
+            if (!string.IsNullOrEmpty(reponse))
             {
                 for (int i = 0; i < listBoxChoices.Items.Count; i++)
                 {
-                    if (listBoxChoices.Items[i].ToString().Trim()
-                        .Equals(reponse.Trim(), StringComparison.OrdinalIgnoreCase))
+                    if (listBoxChoices.Items[i].ToString().Trim().ToLower() == reponse.Trim().ToLower())
                     {
                         listBoxChoices.SelectedIndex = i;
                         break;
@@ -130,38 +163,32 @@ namespace WinFormsApp1
             // TODO FQ 2: Afficher les options de ce type de question
             // Si l'utilisteur a dêja répondu à la question, vous pouvez sélectionner ses choix de réponse
 
-            QuestionReponsesMultiples q = question as QuestionReponsesMultiples;
 
-            if (q == null)
-                return;
+            QuestionReponsesMultiples q = (QuestionReponsesMultiples)question;
 
-            // Ajouter les options
             foreach (string option in q.Options)
             {
                 checkedListBox.Items.Add(option);
             }
 
             // Réafficher les réponses déjà choisies (si existantes)
-            if (!string.IsNullOrWhiteSpace(reponse))
+            if (!string.IsNullOrEmpty(reponse))
             {
-                string[] reponses = reponse.Split(',');
+                string[] reponsesChoisies = reponse.Split(',');
 
-                for (int i = 0; i < checkedListBox.Items.Count; i++)
+                foreach (string rep in reponsesChoisies)
                 {
-                    string item = checkedListBox.Items[i].ToString().Trim();
+                    int index = TrouverIndex(checkedListBox, rep.Trim());
 
-                    for (int j = 0; j < reponses.Length; j++)
+                    if (index >= 0)
                     {
-                        if (item.Equals(reponses[j].Trim(), StringComparison.OrdinalIgnoreCase))
-                        {
-                            checkedListBox.SetItemChecked(i, true);
-                            break;
-                        }
+                        checkedListBox.SetItemChecked(index, true);
                     }
                 }
             }
 
         }
+
         private int TrouverIndex(CheckedListBox listBox, string texte)
         {
             for (int i = 0; i < listBox.Items.Count; i++)
@@ -174,6 +201,7 @@ namespace WinFormsApp1
 
             return -1;
         }
+
         private void ReinitialiserZoneReponse()
         {
             txtAnswer.Visible = false;
@@ -205,13 +233,18 @@ namespace WinFormsApp1
 
             QuizCourant.RepondreQuestionCourante(reponse);
 
-            double score = QuizCourant.ScoreObtenu;
+            double scoreQuestion =
+                QuizCourant.QuestionCourante.CorrigerReponse(reponse);
 
-            lblScore.Text = $"Score: {score}/{QuizCourant.ScoreTotal}";
+            AfficherCouleurResultat(scoreQuestion);
 
-            AfficherCouleurResultat(score);
+            lblScore.Text =
+                $"Score total: {QuizCourant.ScoreObtenu}/{QuizCourant.ScoreTotal}";
+
+            MettreAJourBoutons();
 
         }
+
         private string RecupererReponseUtilisateur()
         {
             // TODO FQ 4: Récupérer la réponse saisie ou sélectionnée par l’utilisateur
@@ -225,65 +258,67 @@ namespace WinFormsApp1
             //
             // Si aucune réponse n’est fournie, retourner une chaîne vide.
 
-            IQuestion q = QuizCourant.QuestionCourante;
 
-            if (q is QuestionVraiFaux)
+            IQuestion question = QuizCourant.QuestionCourante;
+
+            if (question == null)
+                return "";
+
+            if (question is QuestionVraiFaux)
             {
-                return comboTrueFalse.Text;
+                return comboTrueFalse.SelectedItem?.ToString()?.ToLower() ?? "";
             }
-            else if (q is QuestionReponseUnique)
+            else if (question is QuestionNumerique || question is QuestionReponseCourte)
+            {
+                return txtAnswer.Text.Trim();
+            }
+            else if (question is QuestionReponseUnique)
             {
                 return listBoxChoices.SelectedItem?.ToString() ?? "";
             }
-            else if (q is QuestionReponsesMultiples)
+            else if (question is QuestionReponsesMultiples)
             {
-                List<string> rep = new List<string>();
+                List<string> selections = new List<string>();
 
-                foreach (var item in checkedListBox.CheckedItems)
-                    rep.Add(item.ToString());
+                foreach (object item in checkedListBox.CheckedItems)
+                {
+                    selections.Add(item.ToString());
+                }
 
-                return string.Join(",", rep);
-            }
-            else
-            {
-                return txtAnswer.Text;
+                return string.Join(",", selections);
             }
 
+            return "";
         }
+
         private void AfficherCouleurResultat(double score)
         {
             // TODO FQ 5: Mettre à jouyr la couleur de panColor selon le résultat
 
-            double total = QuizCourant.ScoreTotal;
-
-            if (total == 0)
-                return;
-
-            double pourcentage = (score / total) * 100;
-
-            if (pourcentage >= 70)
+            if (score > 0)
             {
                 panColor.BackColor = System.Drawing.Color.Green;
-            }
-            else if (pourcentage >= 50)
-            {
-                panColor.BackColor = System.Drawing.Color.Orange;
             }
             else
             {
                 panColor.BackColor = System.Drawing.Color.Red;
             }
         }
+
         private void btnNext_Click(object sender, EventArgs e)
         {
             // TODO FQ 6: Naviguer vers la question suivante si elle existe
             // et mettre à jour l’affichage.
 
-            if (QuizCourant.IndexQuestionCourante < QuizCourant.Questions.Count - 1)
+            try
             {
                 QuizCourant.QuestionSuivante();
+
+                panColor.BackColor = System.Drawing.Color.Gray;
+
                 AfficherQuestionCourante();
             }
+            catch (InvalidOperationException) { }
 
         }
 
@@ -292,14 +327,19 @@ namespace WinFormsApp1
             // TODO FQ 7: Naviguer vers la question précédente si elle existe
             // et mettre à jour l’affichage.
 
-            if (QuizCourant.IndexQuestionCourante > 0)
+            try
             {
                 QuizCourant.QuestionPrecedente();
+
+                panColor.BackColor = System.Drawing.Color.Gray;
+
                 AfficherQuestionCourante();
             }
+            catch (InvalidOperationException) { }
 
 
         }
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -323,22 +363,27 @@ namespace WinFormsApp1
             // - utiliser l’indice de la question;
             // - afficher le texte de l’indice dans le label prévu.
 
-            IQuestion q = QuizCourant.QuestionCourante;
+            IQuestion question = QuizCourant.QuestionCourante;
 
-            if (q is QuestionNumerique num)
+            if (question is QuestionAvecIndice questionAvecIndice)
             {
-                num.UtiliserIndice();
-                lblIndice.Text = num.Indice;
-            }
-            else if (q is QuestionReponseCourte rc)
-            {
-                rc.UtiliserIndice();
-                lblIndice.Text = rc.Indice;
+                questionAvecIndice.UtiliserIndice();
+
+                lblIndice.Text =
+                    "Indice : " +
+                    questionAvecIndice.Indice;
+
+                btnUtiliserIndice.Visible = false;
             }
 
         }
 
         private void listBoxChoices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblIndice_Click(object sender, EventArgs e)
         {
 
         }

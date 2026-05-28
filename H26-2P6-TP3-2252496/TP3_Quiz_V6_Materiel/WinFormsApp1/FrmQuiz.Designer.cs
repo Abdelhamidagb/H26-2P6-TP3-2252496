@@ -85,6 +85,7 @@
             lblIndice.Name = "lblIndice";
             lblIndice.Size = new Size(340, 55);
             lblIndice.TabIndex = 12;
+            lblIndice.Click += lblIndice_Click;
             // 
             // btnUtiliserIndice
             // 
