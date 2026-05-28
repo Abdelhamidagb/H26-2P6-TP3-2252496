@@ -323,7 +323,18 @@ namespace WinFormsApp1
             // - utiliser l’indice de la question;
             // - afficher le texte de l’indice dans le label prévu.
 
+            IQuestion q = QuizCourant.QuestionCourante;
 
+            if (q is QuestionNumerique num)
+            {
+                num.UtiliserIndice();
+                lblIndice.Text = num.Indice;
+            }
+            else if (q is QuestionReponseCourte rc)
+            {
+                rc.UtiliserIndice();
+                lblIndice.Text = rc.Indice;
+            }
 
         }
 
