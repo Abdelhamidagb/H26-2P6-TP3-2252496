@@ -95,7 +95,30 @@ namespace WinFormsApp1
 
             // TODO FQ 1: Afficher les options de ce type de question
             // Si l'utilisteur a dêja répondu à la question, vous pouvez sélectionner son choix de réponse
+            QuestionReponseUnique q = question as QuestionReponseUnique;
 
+            if (q == null)
+                return;
+
+            // Ajouter les options dans la liste
+            foreach (string option in q.Options)
+            {
+                listBoxChoices.Items.Add(option);
+            }
+
+            // Si une réponse existe déjà, la sélectionner
+            if (!string.IsNullOrWhiteSpace(reponse))
+            {
+                for (int i = 0; i < listBoxChoices.Items.Count; i++)
+                {
+                    if (listBoxChoices.Items[i].ToString().Trim()
+                        .Equals(reponse.Trim(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        listBoxChoices.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
 
         private void AfficherQuestionChoixMultiples(IQuestion question, string reponse)
@@ -107,6 +130,36 @@ namespace WinFormsApp1
             // TODO FQ 2: Afficher les options de ce type de question
             // Si l'utilisteur a dêja répondu à la question, vous pouvez sélectionner ses choix de réponse
 
+            QuestionReponsesMultiples q = question as QuestionReponsesMultiples;
+
+            if (q == null)
+                return;
+
+            // Ajouter les options
+            foreach (string option in q.Options)
+            {
+                checkedListBox.Items.Add(option);
+            }
+
+            // Réafficher les réponses déjà choisies (si existantes)
+            if (!string.IsNullOrWhiteSpace(reponse))
+            {
+                string[] reponses = reponse.Split(',');
+
+                for (int i = 0; i < checkedListBox.Items.Count; i++)
+                {
+                    string item = checkedListBox.Items[i].ToString().Trim();
+
+                    for (int j = 0; j < reponses.Length; j++)
+                    {
+                        if (item.Equals(reponses[j].Trim(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            checkedListBox.SetItemChecked(i, true);
+                            break;
+                        }
+                    }
+                }
+            }
 
         }
         private int TrouverIndex(CheckedListBox listBox, string texte)
