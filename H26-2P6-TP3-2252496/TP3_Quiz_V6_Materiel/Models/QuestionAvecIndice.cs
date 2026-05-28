@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models.Interfaces;
 
 namespace Models
 {
@@ -10,7 +11,7 @@ namespace Models
     /// Classe abstraite représentant une question pouvant fournir un indice à l'utilisateur.
     /// Implémente IReponseAvecIndice en plus de Question.
     /// </summary>
-    public abstract class QuestionAvecIndice : Question, IReponseAvecIndice
+    public abstract class QuestionAvecIndice : Question
     {
         #region Champs privés
 
