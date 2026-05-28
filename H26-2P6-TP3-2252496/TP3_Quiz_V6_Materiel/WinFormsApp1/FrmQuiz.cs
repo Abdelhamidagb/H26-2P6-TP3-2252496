@@ -309,7 +309,10 @@ namespace WinFormsApp1
         {
             // TODO FQ8: Activer/Désactiver les boutons selon le type de question et la question courante.
 
+            btnPrevious.Enabled = QuizCourant.IndexQuestionCourante > 0;
 
+            btnNext.Enabled =
+                QuizCourant.IndexQuestionCourante < QuizCourant.Questions.Count - 1;
 
         }
 
