@@ -102,8 +102,16 @@ namespace Models
                 // TODO QUIZ 1: Calculer et retourner le score total obtenu par l'utilisateur
                 // en parcourant toutes les questions et en utilisant la méthode CorrigerReponse.
 
-               
-                return 0;
+
+                double total = 0;
+
+                for (int i = 0; i < Questions.Count; i++)
+                {
+                    total += Questions[i].CorrigerReponse(Reponses[i]);
+                }
+
+
+                return total;
 
             }
         }
