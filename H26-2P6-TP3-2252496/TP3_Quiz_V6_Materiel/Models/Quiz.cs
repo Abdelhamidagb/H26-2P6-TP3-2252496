@@ -103,15 +103,14 @@ namespace Models
                 // en parcourant toutes les questions et en utilisant la méthode CorrigerReponse.
 
 
-                double total = 0;
+                double score = 0;
 
                 for (int i = 0; i < Questions.Count; i++)
                 {
-                    total += Questions[i].CorrigerReponse(Reponses[i]);
+                    score += Questions[i].CorrigerReponse(Reponses[i]);
                 }
 
-
-                return total;
+                return score;
 
             }
         }
@@ -125,11 +124,11 @@ namespace Models
             {
                 // TODO QUIZ 2: Calculer et retourner le score total possible du quiz
                 // en additionnant les points de toutes les questions.
-                double total = 0;
+                int total = 0;
 
-                for (int i = 0; i < Questions.Count; i++)
+                foreach (IQuestion question in Questions)
                 {
-                    total += Questions[i].Points;
+                    total += question.Points;
                 }
 
                 return total;
@@ -148,15 +147,17 @@ namespace Models
                 // en vérifiant chaque réponse avec la méthode ValiderReponse.
 
 
-                int count = 0;
+                int nb = 0;
 
                 for (int i = 0; i < Questions.Count; i++)
                 {
                     if (Questions[i].ValiderReponse(Reponses[i]))
-                        count++;
+                    {
+                        nb++;
+                    }
                 }
 
-                return count;
+                return nb;
 
             }
         }
